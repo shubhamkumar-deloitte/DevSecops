@@ -19,7 +19,7 @@ jobs:
       # Start your web app (example: using Docker Compose)
       - name: Start web application
         run: |
-          docker-compose up -d
+          docker compose up -d
           sleep 30 # Wait for the app to be ready
 
       # Run OWASP ZAP Baseline Scan
