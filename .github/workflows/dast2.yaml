@@ -2,12 +2,17 @@ name: DAST Scan
 
 on:
   push:
-    branches: [ main ]
+    branches:[ main ]
   pull_request:
+
+permissions:
+  contents: read      # Needed for actions/checkout
+  issues: write       # Needed for ZAP action to create/update issues
 
 jobs:
   dast:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -28,11 +33,10 @@ jobs:
           echo "App did not start in time."
           exit 1
 
-      - name: Run ZAP Baseline Scan as root
+      - name: Run ZAP Baseline Scan
         uses: zaproxy/action-baseline@v0.12.0
         with:
           target: 'http://localhost:8080'
-          docker_user: 'root'
           report: 'zap_report.html'
           fail_action: true
           min_priority: 'High'
